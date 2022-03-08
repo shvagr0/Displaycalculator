@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MonitorCalculator.Properties {
+namespace DisplayCalculator.Properties {
     using System;
     
     
