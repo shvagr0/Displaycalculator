@@ -1,0 +1,60 @@
+﻿<Window x:Class="MonitorCalculator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        WindowStyle="ThreeDBorderWindow"
+        Background="White"
+        Icon="D:\programming\C#\WpfApp2\icon.ico"
+        Title="MonitorCalculator" Height="350" Width="500">
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style x:Key="WarningBox" TargetType="TextBox">
+                <Setter Property="IsEnabled" Value="False"/>
+                <Setter Property="Background" Value="#FA66"/>
+            </Style>
+            <Style x:Key="CloseBox" TargetType="TextBox">
+                <Setter Property="IsEnabled" Value="False"/>
+                <Setter Property="Background" Value="#FFE6E678"/>
+            </Style>
+            <Style x:Key="OpenBox" TargetType="TextBox">
+                <Setter Property="IsEnabled" Value="True"/>
+                <Setter Property="Background" Value="White"/>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <TextBox PreviewTextInput="OnlyNumbers" Grid.Column="1" Grid.Row="1" Margin="3" x:Name="diagonal" FontSize="24"/>
+        <TextBox PreviewTextInput="correlation_PreviewTextInput" Grid.Column="1" Grid.Row="2" Margin="3" x:Name="correlation" FontSize="24"/>
+
+        <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" Margin="0,0,10,0"><Run Language="uk-ua" Text="Діагональ монітора"/></TextBlock>
+        <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="0" Grid.Row="2" Margin="0,0,10,0"><Run Language="uk-ua" Text="Співвідношення сторін"/></TextBlock>
+
+        <Button Content="Обчислити" Grid.Column="1" Grid.Row="3" Margin="3" x:Name="Button" />
+
+        <TextBox PreviewTextInput="OnlyNumbers" Grid.Column="1" Grid.Row="4" Margin="3,3,3,3" FontSize="24" x:Name="wResult"/>
+        <TextBox PreviewTextInput="OnlyNumbers" Grid.Column="1" Grid.Row="5" Margin="3,3,3,3" FontSize="24" x:Name="hResult"/>
+
+        <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="0" Grid.Row="4" Margin="0,0,10,0"><Run Language="uk-ua" Text="Ширина"/></TextBlock>
+        <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="0" Grid.Row="5" Margin="0,0,10,0"><Run Language="uk-ua" Text="Висота"/></TextBlock>
+
+        <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center" Content="Revers mode" Margin="10" Grid.Column="0" Grid.Row="3" x:Name="CheckBoxMode" Click="CheckBox_Click"/>
+        <RadioButton HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Grid.Column="0" Grid.Row="4" Visibility="Hidden" Checked="CheckBox_Click" IsChecked="True" x:Name="RadioButtW"/>
+        <RadioButton HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Grid.Column="0" Grid.Row="5" Visibility="Hidden" Checked="CheckBox_Click" IsChecked="False" x:Name="RadioButtH"/>
+    </Grid>
+</Window>
