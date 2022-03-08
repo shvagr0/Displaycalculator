@@ -9,23 +9,7 @@
         Background="White"
         Icon="\icon.ico"
         Title="DisplayCalculator" Height="370" Width="450" ResizeMode="NoResize">
-    <Window.Resources>
-        <ResourceDictionary>
 
-            <Style x:Key="WarningBox" TargetType="TextBox">
-                <Setter Property="IsEnabled" Value="False"/>
-                <Setter Property="Background" Value="#FA66"/>
-            </Style>
-            <Style x:Key="CloseBox" TargetType="TextBox">
-                <Setter Property="IsEnabled" Value="False"/>
-                <Setter Property="Background" Value="#FFE6E678"/>
-            </Style>
-            <Style x:Key="OpenBox" TargetType="TextBox">
-                <Setter Property="IsEnabled" Value="True"/>
-                <Setter Property="Background" Value="White"/>
-            </Style>
-        </ResourceDictionary>
-    </Window.Resources>
     <Grid x:Name="MainGrid" Margin="15,-10,15,15">
         <Grid.RowDefinitions>
             <RowDefinition/>
