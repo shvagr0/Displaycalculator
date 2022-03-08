@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MonitorCalculator
+namespace DisplayCalculator
 {
 
     public readonly struct Display
@@ -17,7 +17,7 @@ namespace MonitorCalculator
 
         public Display(double Diagonal, Corralation Correlation)
         {
-            diagonal = Diagonal * 2.54;
+            diagonal = Diagonal;
             correlation = Correlation;
 
             double kof = Math.Sqrt(Math.Pow(Correlation.Height, 2) + Math.Pow(Correlation.Width, 2));
@@ -34,15 +34,23 @@ namespace MonitorCalculator
                 width = LenOfSide;
                 height = (LenOfSide / Corralation.Width) * Corralation.Height;
 
-                diagonal = Math.Sqrt(Math.Pow(width, 2) + Math.Pow(height, 2)) / 2.54;
+                diagonal = Math.Sqrt(Math.Pow(width, 2) + Math.Pow(height, 2));
             }
             else
             {
                 height = LenOfSide;
                 width = (LenOfSide / Corralation.Height) * Corralation.Width;
 
-                diagonal = Math.Sqrt(Math.Pow(width, 2) + Math.Pow(height, 2)) / 2.54;
+                diagonal = Math.Sqrt(Math.Pow(width, 2) + Math.Pow(height, 2));
             }
+        }
+
+        public Display(double Width, double Height)
+        {
+            width = Width;
+            height = Height;
+            correlation = new Corralation((uint)width, (uint)height);
+            diagonal = Math.Sqrt(Math.Pow(width, 2) + Math.Pow(height, 2));
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MonitorCalculator
+namespace DisplayCalculator
 {
 
     public readonly struct Corralation
