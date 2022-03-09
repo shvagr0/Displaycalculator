@@ -12,6 +12,12 @@ namespace DisplayCalculator
         public Corralation(uint Width, uint Height)
         {
             if (Width == 0 || Height == 0) throw new ArgumentException();
+            if (Height == Width)
+            {
+                this.Height = 1;
+                this.Width = 1;
+                return;
+            }
 
             this.Height = Height;
             this.Width = Width;
@@ -27,9 +33,9 @@ namespace DisplayCalculator
             {
                 for (int b = 0; b < BList.Count; b++)
                 {
-                    if (BList[s] == SList[b])
+                    if (BList[b] == SList[s])
                     {
-                        cof *= BList[s];
+                        cof *= BList[b];
                         BList.RemoveAt(b);
                         break;
                     }
@@ -60,7 +66,7 @@ namespace DisplayCalculator
                 }
                 if (IsNatural)
                 {
-                    List.Add(num);
+                    List.Add(number);
                     break;
                 }
             }

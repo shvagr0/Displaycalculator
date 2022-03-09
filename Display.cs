@@ -3,7 +3,7 @@
 namespace DisplayCalculator
 {
 
-    public readonly struct Display
+    public class Display
     {
         public enum Side { Width, Height };
 
