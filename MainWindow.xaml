@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"  
         mc:Ignorable="d"
         WindowStyle="ThreeDBorderWindow"
         Background="White"
@@ -24,7 +24,7 @@
         </Style>
 
         <Style x:Key="WarningTextBox"
-               TargetType="Button"
+               TargetType="TextBox"
                BasedOn="{StaticResource DefaultTextBox}">
             <Setter Property="Background">
                 <Setter.Value>
@@ -52,19 +52,21 @@
                 <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
 
-            <TextBox Style="{StaticResource DefaultTextBox}"
+            <TextBox x:Name="TextBox_Diagonal"
+                     Style="{StaticResource DefaultTextBox}"
                      materialDesign:HintAssist.Hint="Діагональ"
                      PreviewTextInput="TextBox_PreviewTextInput"
                      Grid.Column="0"/>
             <ComboBox Style="{StaticResource MaterialDesignComboBox}"
+                      SelectionChanged="InputChanged"
                       Grid.Column="1"
                       Width="120" 
                       HorizontalAlignment="Left" 
                       VerticalAlignment="Bottom" 
                       FontSize="20">
-                <ComboBoxItem IsSelected="True">Дюйм</ComboBoxItem>
-                <ComboBoxItem>Сантиметр</ComboBoxItem>
-                <ComboBoxItem>Міліметр</ComboBoxItem>
+                <ComboBoxItem x:Name="ComboBoxDiagonalInch" IsSelected="True">Дюйм</ComboBoxItem>
+                <ComboBoxItem x:Name="ComboBoxDiagonalСentimeter">Сантиметр</ComboBoxItem>
+                <ComboBoxItem x:Name="ComboBoxDiagonalMilimeter">Міліметр</ComboBoxItem>
             </ComboBox>
         </Grid>
 
@@ -75,7 +77,8 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="~" FontSize="30" Visibility="Hidden"/>
-            <TextBox Style="{StaticResource DefaultTextBox}"
+            <TextBox x:Name="TextBox_Corralation"
+                     Style="{StaticResource DefaultTextBox}"
                      materialDesign:HintAssist.Hint="Співвідношення сторін"
                      Grid.Column="0"
                      FontSize="24"/>
@@ -138,15 +141,22 @@
                 <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
 
-            <TextBox Style="{StaticResource DefaultTextBox}"
+            <TextBox x:Name="TextBox_Width"
+                     Style="{StaticResource DefaultTextBox}"
                      materialDesign:HintAssist.Hint="Ширина" 
                      PreviewTextInput="TextBox_PreviewTextInput"
                      Grid.Column="0"
                      IsEnabled="False"/>
-            <ComboBox Style="{StaticResource MaterialDesignComboBox}" Grid.Column="1" Width="120" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="20">
-                <ComboBoxItem>Дюйм</ComboBoxItem>
-                <ComboBoxItem IsSelected="True">Сантиметр</ComboBoxItem>
-                <ComboBoxItem>Міліметр</ComboBoxItem>
+            <ComboBox Style="{StaticResource MaterialDesignComboBox}"
+                      SelectionChanged="InputChanged"
+                      Grid.Column="1"
+                      Width="120"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Bottom"
+                      FontSize="20">
+                <ComboBoxItem x:Name="ComboBoxWidthInch">Дюйм</ComboBoxItem>
+                <ComboBoxItem x:Name="ComboBoxWidthСentimeter" IsSelected="True">Сантиметр</ComboBoxItem>
+                <ComboBoxItem x:Name="ComboBoxWidthMilimeter">Міліметр</ComboBoxItem>
             </ComboBox>
         </Grid>
 
@@ -156,19 +166,21 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <TextBox Style="{StaticResource DefaultTextBox}"
+            <TextBox x:Name="TextBox_Height"
+                     Style="{StaticResource DefaultTextBox}"
                      materialDesign:HintAssist.Hint="Висота"
                      PreviewTextInput="TextBox_PreviewTextInput"
                      Grid.Column="0"
                      IsEnabled="False"/>
             <ComboBox Style="{StaticResource MaterialDesignComboBox}"
+                      SelectionChanged="InputChanged"
                       Grid.Column="1" Width="120"
                       HorizontalAlignment="Left"
                       VerticalAlignment="Bottom" 
                       FontSize="20">
-                <ComboBoxItem>Дюйм</ComboBoxItem>
-                <ComboBoxItem IsSelected="True">Сантиметр</ComboBoxItem>
-                <ComboBoxItem>Міліметр</ComboBoxItem>
+                <ComboBoxItem x:Name="ComboBoxHeightInch">Дюйм</ComboBoxItem>
+                <ComboBoxItem x:Name="ComboBoxHeightСentimeter" IsSelected="True">Сантиметр</ComboBoxItem>
+                <ComboBoxItem x:Name="ComboBoxHeightMilimeter">Міліметр</ComboBoxItem>
             </ComboBox>
         </Grid>
 
