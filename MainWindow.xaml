@@ -141,7 +141,8 @@
             <TextBox Style="{StaticResource DefaultTextBox}"
                      materialDesign:HintAssist.Hint="Ширина" 
                      PreviewTextInput="TextBox_PreviewTextInput"
-                     Grid.Column="0"/>
+                     Grid.Column="0"
+                     IsEnabled="False"/>
             <ComboBox Style="{StaticResource MaterialDesignComboBox}" Grid.Column="1" Width="120" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="20">
                 <ComboBoxItem>Дюйм</ComboBoxItem>
                 <ComboBoxItem IsSelected="True">Сантиметр</ComboBoxItem>
@@ -158,7 +159,8 @@
             <TextBox Style="{StaticResource DefaultTextBox}"
                      materialDesign:HintAssist.Hint="Висота"
                      PreviewTextInput="TextBox_PreviewTextInput"
-                     Grid.Column="0"/>
+                     Grid.Column="0"
+                     IsEnabled="False"/>
             <ComboBox Style="{StaticResource MaterialDesignComboBox}"
                       Grid.Column="1" Width="120"
                       HorizontalAlignment="Left"
