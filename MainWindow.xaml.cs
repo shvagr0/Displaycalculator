@@ -1,17 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DisplayCalculator
 {
@@ -134,10 +124,22 @@ namespace DisplayCalculator
         //    e.Handled = regex.IsMatch(e.Text);
         //}
 
-        //private void correlation_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        //{
-        //    Regex regex = new Regex(@"^[0-9]+:*\d*");
-        //    e.Handled = regex.IsMatch(e.Text);
-        //}
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex(@"[^0-9,]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void ReverseModeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DefaultModeGrid.Visibility = Visibility.Collapsed;
+            ReverseModeGrid.Visibility = Visibility.Visible;
+        }
+
+        private void ExitTheReverseModeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ReverseModeGrid.Visibility = Visibility.Collapsed;
+            DefaultModeGrid.Visibility = Visibility.Visible;
+        }
     }
 }

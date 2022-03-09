@@ -10,6 +10,34 @@
         Icon="\icon.ico"
         Title="DisplayCalculator" Height="370" Width="450" ResizeMode="NoResize">
 
+    <Window.Resources>
+        <Style x:Key="DefaultTextBox"
+               TargetType="TextBox"
+               BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}">
+            <Setter Property="Width" Value="300"/>
+            <Setter Property="MaxLength" Value="15"/>
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="ToolTip" Value="{x:Null}"/>
+        </Style>
+
+        <Style x:Key="WarningTextBox"
+               TargetType="Button"
+               BasedOn="{StaticResource DefaultTextBox}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0.5,2" EndPoint="0.5,0">
+                        <GradientStop Color="Red" Offset="0"/>
+                        <GradientStop Color="Transparent" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ToolTip" Value="Некоректний ввід"/>
+        </Style>
+    </Window.Resources>
+
     <Grid x:Name="MainGrid" Margin="15,-10,15,15">
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -21,24 +49,99 @@
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
 
-            <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Діагональ" Width="300" Grid.Column="0" MaxLength="15" VerticalAlignment="Bottom" FontSize="30" HorizontalAlignment="Left"/>
-            <ComboBox Style="{StaticResource MaterialDesignComboBox}" Grid.Column="1" Width="120" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="20">
+            <TextBox Style="{StaticResource DefaultTextBox}"
+                     materialDesign:HintAssist.Hint="Діагональ"
+                     PreviewTextInput="TextBox_PreviewTextInput"
+                     Grid.Column="0"/>
+            <ComboBox Style="{StaticResource MaterialDesignComboBox}"
+                      Grid.Column="1"
+                      Width="120" 
+                      HorizontalAlignment="Left" 
+                      VerticalAlignment="Bottom" 
+                      FontSize="20">
                 <ComboBoxItem IsSelected="True">Дюйм</ComboBoxItem>
                 <ComboBoxItem>Сантиметр</ComboBoxItem>
                 <ComboBoxItem>Міліметр</ComboBoxItem>
             </ComboBox>
         </Grid>
 
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="120"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="~" FontSize="30" Visibility="Hidden"/>
+            <TextBox Style="{StaticResource DefaultTextBox}"
+                     materialDesign:HintAssist.Hint="Співвідношення сторін"
+                     Grid.Column="0"
+                     FontSize="24"/>
+
+            <Grid Grid.Column="1" x:Name="DefaultModeGrid">
+                <Button Style="{StaticResource MaterialDesignFlatSecondaryLightBgButton}"
+                        ToolTip="Зворотній режим"
+                        FontSize="10"
+                        Width="100"
+                        Margin="0,40,0,0"
+                        Content="Reverse Mode"
+                        Click="ReverseModeBtn_Click"/>
+            </Grid>
+
+            <Grid Grid.Column="1" Visibility="Collapsed" x:Name="ReverseModeGrid">
+                <materialDesign:PackIcon Kind="Minus" Margin="101,6,0,0" Width="13" Height="13" Panel.ZIndex="1" Foreground="white"/>
+                <Button Style="{StaticResource MaterialDesignFlatSecondaryLightBgButton}"
+                        Height="15"
+                        Width="15"
+                        Margin="0,5,5,0"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Right"
+                        ToolTip="Вихід"
+                        Click="ExitTheReverseModeBtn_Click">
+                </Button>
+                <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                    <RadioButton Style="{StaticResource MaterialDesignLightRadioButton}"
+                             VerticalAlignment="Center"
+                             HorizontalAlignment="Left"
+                             Margin="4"
+                             Content="Ширина"
+                             Background="#FF673AB7" 
+                             BorderBrush="#FF673AB7"/>
+                    <RadioButton Style="{StaticResource MaterialDesignLightRadioButton}"
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Left"
+                         Margin="4"
+                         Content="Висота"
+                         Background="#FF673AB7" 
+                         BorderBrush="#FF673AB7"/>
+                    <RadioButton Style="{StaticResource MaterialDesignLightRadioButton}"
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Left"
+                         Margin="4"
+                         IsChecked="True"
+                         FontSize="11"
+                         Content="Ширина і висота"
+                         Background="#FF673AB7" 
+                         BorderBrush="#FF673AB7"/>
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+
+
+
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
 
-            <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Ширина" Width="300" Grid.Column="0" MaxLength="15" VerticalAlignment="Bottom" FontSize="30" HorizontalAlignment="Left"/>
+            <TextBox Style="{StaticResource DefaultTextBox}"
+                     materialDesign:HintAssist.Hint="Ширина" 
+                     PreviewTextInput="TextBox_PreviewTextInput"
+                     Grid.Column="0"/>
             <ComboBox Style="{StaticResource MaterialDesignComboBox}" Grid.Column="1" Width="120" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="20">
                 <ComboBoxItem>Дюйм</ComboBoxItem>
                 <ComboBoxItem IsSelected="True">Сантиметр</ComboBoxItem>
@@ -52,8 +155,15 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Висота" Width="300" Grid.Column="0" MaxLength="15" VerticalAlignment="Bottom" FontSize="30" HorizontalAlignment="Left"/>
-            <ComboBox Style="{StaticResource MaterialDesignComboBox}" Grid.Column="1" Width="120" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="20">
+            <TextBox Style="{StaticResource DefaultTextBox}"
+                     materialDesign:HintAssist.Hint="Висота"
+                     PreviewTextInput="TextBox_PreviewTextInput"
+                     Grid.Column="0"/>
+            <ComboBox Style="{StaticResource MaterialDesignComboBox}"
+                      Grid.Column="1" Width="120"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Bottom" 
+                      FontSize="20">
                 <ComboBoxItem>Дюйм</ComboBoxItem>
                 <ComboBoxItem IsSelected="True">Сантиметр</ComboBoxItem>
                 <ComboBoxItem>Міліметр</ComboBoxItem>
