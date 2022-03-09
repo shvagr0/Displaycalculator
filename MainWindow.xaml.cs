@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -12,117 +13,99 @@ namespace DisplayCalculator
     /// </summary>
     public partial class MainWindow : Window
     {
+        private const double _inch = 25.4;
+        private const int _centimeter = 10;
+        private bool IsReverseMode = false;
+
+        private Display Display;
+
+        private double diagonal;
+        private Corralation corralation;
+        private double width;
+        private double height;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            foreach (UIElement el in MainGrid.Children)
-            {
-                //if (el is Button)
-                //{
-                //    ((Button)el).Click += Button_Click;
-                //}
-                //else if (el is CheckBox)
-                //{
-                //    ((CheckBox)el).Checked += CheckBox_Click;
-                //}
-            }
+            TextBox_Diagonal.TextChanged += InputChanged;
+            TextBox_Diagonal.TextChanged += CheckOnCorrectInput;
+
+            TextBox_Corralation.TextChanged += InputChanged;
+            TextBox_Corralation.TextChanged += CheckOnCorrectInput;
+
+            TextBox_Width.TextChanged += InputChanged;
+            TextBox_Width.TextChanged += CheckOnCorrectInput;
+
+            TextBox_Height.TextChanged += InputChanged;
+            TextBox_Height.TextChanged += CheckOnCorrectInput;
         }
 
-        //private void Button_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (CheckBoxMode.IsChecked == true)
-        //    {
-        //        bool setSide = (bool)RadioButtW.IsChecked;
-        //        double sideL;
-        //        try
-        //        {
-        //            if (setSide)
-        //            {
-        //                sideL = double.Parse(wResult.Text);
-        //            }
-        //            else
-        //            {
-        //                sideL = double.Parse(hResult.Text);
-        //            }
-        //            var monitor = new Display(new Corralation(12, 4), sideL, Display.Side.Width);
 
-        //            diagonal.Text = string.Format("{0:0.0}", monitor.diagonal);
+        private void CheckOnCorrectInput(object sender, RoutedEventArgs e)
+        {
+            if (!Regex.IsMatch(TextBox_Corralation.Text, @"^[1-9]+\d*[:][1-9]+\d*$") && TextBox_Corralation.Text != String.Empty)
+                TextBox_Corralation.Style = (Style)Resources["WarningTextBox"];
+            else
+                TextBox_Corralation.Style = (Style)Resources["DefaultTextBox"];
 
-        //            if (setSide)
-        //            {
-        //                hResult.Text = string.Format("{0:0.000}", monitor.height);
-        //            }
-        //            else
-        //            {
-        //                wResult.Text = string.Format("{0:0.000}", monitor.width);
-        //            }
-        //        }
-        //        catch { }
+            if (!Regex.IsMatch(TextBox_Diagonal.Text, @"^\s*\d*[,]?\d*\s*$") && TextBox_Diagonal.Text != String.Empty)
+                TextBox_Diagonal.Style = (Style)Resources["WarningTextBox"];
+            else
+                TextBox_Diagonal.Style = (Style)Resources["DefaultTextBox"];
 
-        //    }
-        //    else
-        //    {
-        //        try
-        //        {
-        //            Corralation corralation = new Corralation(12, 4);
-        //            var monitor = new Display(double.Parse(diagonal.Text), new Corralation(12, 2));
+            if (!Regex.IsMatch(TextBox_Width.Text, @"^\s*\d*[,]?\d*\s*$") && TextBox_Width.Text != String.Empty)
+                TextBox_Width.Style = (Style)Resources["WarningTextBox"];
+            else
+                TextBox_Width.Style = (Style)Resources["DefaultTextBox"];
 
-        //            hResult.Text = string.Format("{0:0.000}", monitor.height);
-        //            wResult.Text = string.Format("{0:0.000}", monitor.width);
+            if (!Regex.IsMatch(TextBox_Height.Text, @"^\s*\d*[,]?\d*\s*$") && TextBox_Height.Text != String.Empty)
+                TextBox_Height.Style = (Style)Resources["WarningTextBox"];
+            else
+                TextBox_Height.Style = (Style)Resources["DefaultTextBox"];
+        }
 
-        //        }
-        //        catch { }
-        //    }
-        //}
+        private void InputChanged(object sender, RoutedEventArgs e)
+        {
+            if (!IsReverseMode)
+            {
+                try
+                {
+                    string[] corralationInput = TextBox_Corralation.Text.Split(':');
+                    if (corralationInput.Length != 2)
+                        throw new Exception();
+                    uint WCorralation = UInt32.Parse(corralationInput[0]);
+                    uint HCorralayion = UInt32.Parse(corralationInput[1]);
+                    corralation = new Corralation(WCorralation, HCorralayion);
 
-        //private void CheckBox_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Color colorResultBox = Color.FromRgb(230, 230, 130);
-        //    Color defaultColorBox = Color.FromRgb(255, 255, 255);
-        //    if (CheckBoxMode.IsChecked == false)
-        //    {
-        //        #region IsEnabled bools
-        //        wResult.Style = (Style)Resources["CloseBox"];
-        //        hResult.Style = (Style)Resources["CloseBox"];
+                    if (ComboBoxDiagonalInch.IsSelected)
+                        diagonal = Double.Parse(TextBox_Diagonal.Text) * _inch;
+                    else if (ComboBoxDiagonalСentimeter.IsSelected)
+                        diagonal = Double.Parse(TextBox_Diagonal.Text) * _centimeter;
+                    else
+                        diagonal = Double.Parse(TextBox_Diagonal.Text);
 
-        //        diagonal.Style = (Style)Resources["OpenBox"];
-        //        correlation.Style = (Style)Resources["OpenBox"];
+                    Display = new Display(diagonal, corralation);
 
-        //        RadioButtW.Visibility = Visibility.Hidden;
-        //        if (RadioButtH != null)
-        //            RadioButtH.Visibility = Visibility.Hidden;
-        //        #endregion
-        //    }
-        //    else
-        //    {
-        //        #region IsEnabled bools
-        //        wResult.Style = (Style)Resources["OpenBox"];
-        //        hResult.Style = (Style)Resources["OpenBox"];
+                    TextBox_Width.Text = Display.width.ToString();
+                    TextBox_Height.Text = Display.height.ToString();
+                    if (!TextBox_Corralation.IsFocused)
+                        TextBox_Corralation.Text = Display.correlation.ToString();
+                }
+                catch
+                {
+                    if (TextBox_Width != null && TextBox_Height != null)
+                    {
+                        TextBox_Width.Text = String.Empty;
+                        TextBox_Height.Text = String.Empty;
+                    }
+                }
+            }
+            else
+            {
 
-        //        diagonal.Style = (Style)Resources["CloseBox"];
-        //        correlation.Style = (Style)Resources["OpenBox"];
-
-        //        if (RadioButtW.IsChecked == true)
-        //        {
-        //            hResult.Style = (Style)Resources["CloseBox"];
-        //        }
-        //        else
-        //        {
-        //            wResult.Style = (Style)Resources["CloseBox"];
-        //        }
-
-        //        RadioButtH.Visibility = Visibility.Visible;
-        //        RadioButtW.Visibility = Visibility.Visible;
-        //        #endregion
-        //    }
-        //}
-
-        //private void OnlyNumbers(object sender, TextCompositionEventArgs e)
-        //{
-        //    Regex regex = new Regex(@"[\d,]+");
-        //    e.Handled = regex.IsMatch(e.Text);
-        //}
+            }
+        }
 
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
@@ -132,12 +115,14 @@ namespace DisplayCalculator
 
         private void ReverseModeBtn_Click(object sender, RoutedEventArgs e)
         {
+            IsReverseMode = true;
             DefaultModeGrid.Visibility = Visibility.Collapsed;
             ReverseModeGrid.Visibility = Visibility.Visible;
         }
 
         private void ExitTheReverseModeBtn_Click(object sender, RoutedEventArgs e)
         {
+            IsReverseMode = false;
             ReverseModeGrid.Visibility = Visibility.Collapsed;
             DefaultModeGrid.Visibility = Visibility.Visible;
         }
