@@ -45,12 +45,43 @@ namespace DisplayCalculator
             }
         }
 
+        public Display(double Diagonal, double LenOfSide, Side side)
+        {
+            if (Diagonal < LenOfSide) throw new ArgumentException("Довжина строни неможе бути меншою за діагональ");
+            diagonal = Diagonal;
+            if (side == Side.Width)
+            {
+                width = LenOfSide;
+                height = Math.Sqrt(Math.Pow(diagonal, 2) - Math.Pow(width, 2));
+            }
+            else
+            {
+                height = LenOfSide;
+                width = Math.Sqrt(Math.Pow(diagonal, 2) - Math.Pow(height, 2));
+            }
+            try
+            {
+                correlation = new Corralation((uint)(width * 1000), (uint)(height * 1000));
+            }
+            catch
+            {
+                correlation = new Corralation();
+            }
+        }
+
         public Display(double Width, double Height)
         {
             width = Width;
             height = Height;
-            correlation = new Corralation((uint)width, (uint)height);
             diagonal = Math.Sqrt(Math.Pow(width, 2) + Math.Pow(height, 2));
+            try
+            {
+                correlation = new Corralation((uint)(width * 1000), (uint)(height * 1000));
+            }
+            catch
+            {
+                correlation = new Corralation();
+            }
         }
     }
 }
