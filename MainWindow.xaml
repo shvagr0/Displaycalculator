@@ -83,51 +83,56 @@
                      Grid.Column="0"
                      FontSize="24"/>
 
-            <Grid Grid.Column="1" x:Name="DefaultModeGrid">
-                <Button Style="{StaticResource MaterialDesignFlatSecondaryLightBgButton}"
-                        ToolTip="Зворотній режим"
-                        FontSize="10"
-                        Width="100"
-                        Margin="0,40,0,0"
-                        Content="Reverse Mode"
-                        Click="ReverseModeBtn_Click"/>
-            </Grid>
-
-            <Grid Grid.Column="1" Visibility="Collapsed" x:Name="ReverseModeGrid">
-                <materialDesign:PackIcon Kind="Minus" Margin="101,6,0,0" Width="13" Height="13" Panel.ZIndex="1" Foreground="white"/>
-                <Button Style="{StaticResource MaterialDesignFlatSecondaryLightBgButton}"
-                        Height="15"
-                        Width="15"
-                        Margin="0,5,5,0"
+            <Grid Grid.Column="1" x:Name="ModeGrid">
+                <Label Content="Reverse Mode"
+                       Style="{StaticResource MaterialDesignLabel}"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Right"
+                       Margin="1"/>
+                <CheckBox x:Name="ModeSwitcher"
+                        Style="{StaticResource MaterialDesignSwitchLightToggleButton}"
+                        Margin="5,5,0,0"
                         VerticalAlignment="Top"
-                        HorizontalAlignment="Right"
-                        ToolTip="Вихід"
-                        Click="ExitTheReverseModeBtn_Click">
-                </Button>
-                <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left">
-                    <RadioButton Style="{StaticResource MaterialDesignLightRadioButton}"
-                             VerticalAlignment="Center"
-                             HorizontalAlignment="Left"
-                             Margin="4"
-                             Content="Ширина"
-                             Background="#FF673AB7" 
-                             BorderBrush="#FF673AB7"/>
-                    <RadioButton Style="{StaticResource MaterialDesignLightRadioButton}"
-                         VerticalAlignment="Center"
-                         HorizontalAlignment="Left"
-                         Margin="4"
-                         Content="Висота"
-                         Background="#FF673AB7" 
-                         BorderBrush="#FF673AB7"/>
-                    <RadioButton Style="{StaticResource MaterialDesignLightRadioButton}"
-                         VerticalAlignment="Center"
-                         HorizontalAlignment="Left"
-                         Margin="4"
-                         IsChecked="True"
-                         FontSize="11"
-                         Content="Ширина і висота"
-                         Background="#FF673AB7" 
-                         BorderBrush="#FF673AB7"/>
+                        HorizontalAlignment="Left"
+                        ToolTip="Зворотній режим"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Background="#FF673AB7"
+                        Click="SwitchModes">
+                    <CheckBox.Content>
+                        <materialDesign:PackIcon Kind="Cached" Margin="0,0,2,3" Height="20" Width="20"/>
+                    </CheckBox.Content>
+                </CheckBox>
+                <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,-25">
+                    <RadioButton x:Name="WHMode"
+                                 Style="{StaticResource MaterialDesignLightRadioButton}"
+                                 VerticalAlignment="Center"
+                                 HorizontalAlignment="Left"
+                                 Margin="4"
+                                 IsChecked="True"
+                                 FontSize="11"
+                                 Content="Ширина і висота"
+                                 Background="#FF673AB7" 
+                                 BorderBrush="#FF673AB7"
+                                 Click="SwitchModes"/>
+                    <RadioButton x:Name="WidthMode"
+                                 Style="{StaticResource MaterialDesignLightRadioButton}"
+                                 VerticalAlignment="Center"
+                                 HorizontalAlignment="Left"
+                                 Margin="4"
+                                 Content="Ширина"
+                                 Background="#FF673AB7" 
+                                 BorderBrush="#FF673AB7"
+                                 Click="SwitchModes"/>
+                    <RadioButton x:Name="HeightMode"
+                                 Style="{StaticResource MaterialDesignLightRadioButton}"
+                                 VerticalAlignment="Center"
+                                 HorizontalAlignment="Left"
+                                 Margin="4"
+                                 Content="Висота"
+                                 Background="#FF673AB7" 
+                                 BorderBrush="#FF673AB7"
+                                 Click="SwitchModes"/>
                 </StackPanel>
             </Grid>
 
