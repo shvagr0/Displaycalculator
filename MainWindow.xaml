@@ -97,12 +97,12 @@
                      ToolTip="Можлива погрішність розрахунків"/>
             </Grid>
 
-            <TextBox x:Name="TextBox_Corralation"
+            <TextBox x:Name="TextBox_Correlation"
                      Style="{StaticResource DefaultTextBox}"
                      materialDesign:HintAssist.Hint="Співвідношення сторін"
                      Grid.Column="0"
                      FontSize="24"
-                     PreviewTextInput="Corralation_PreviewTextInput"/>
+                     PreviewTextInput="Corralation_PreviewTextInput" Cursor="IBeam"/>
 
             <Grid Grid.Column="1" x:Name="ModeGrid">
                 <Label Content="Reverse Mode"

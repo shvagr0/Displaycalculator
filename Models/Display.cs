@@ -8,11 +8,11 @@ namespace DisplayCalculator
         public enum Side { Width, Height };
 
         public readonly double Diagonal;
-        public readonly Corralation Correlation;
+        public readonly Correlation Correlation;
         public readonly double Width;
         public readonly double Height;
 
-        public Display(double Diagonal, Corralation Correlation)
+        public Display(double Diagonal, Correlation Correlation)
         {
             this.Diagonal = Diagonal;
             this.Correlation = Correlation;
@@ -23,20 +23,20 @@ namespace DisplayCalculator
             Width = (Correlation.Width * this.Diagonal / kof);
         }
 
-        public Display(Corralation Corralation, double LenOfSide, Side side)
+        public Display(Correlation Correlation, double LenOfSide, Side side)
         {
-            Correlation = Corralation;
+            this.Correlation = Correlation;
             if (side == Side.Width)
             {
                 Width = LenOfSide;
-                Height = (LenOfSide / Corralation.Width) * Corralation.Height;
+                Height = (LenOfSide / Correlation.Width) * Correlation.Height;
 
                 Diagonal = Math.Sqrt(Math.Pow(Width, 2) + Math.Pow(Height, 2));
             }
             else
             {
                 Height = LenOfSide;
-                Width = (LenOfSide / Corralation.Height) * Corralation.Width;
+                Width = (LenOfSide / Correlation.Height) * Correlation.Width;
 
                 Diagonal = Math.Sqrt(Math.Pow(Width, 2) + Math.Pow(Height, 2));
             }
@@ -60,11 +60,11 @@ namespace DisplayCalculator
             /*Possible errors*/
             try
             {
-                Correlation = new Corralation((uint)(Width * 1000), (uint)(Height * 1000));
+                Correlation = new Correlation((uint)(Width * 1000), (uint)(Height * 1000));
             }
             catch
             {
-                Correlation = new Corralation();
+                Correlation = new Correlation();
             }
         }
 
@@ -77,11 +77,11 @@ namespace DisplayCalculator
             /*Possible errors*/
             try
             {
-                Correlation = new Corralation((uint)(this.Width * 1000), (uint)(this.Height * 1000));
+                Correlation = new Correlation((uint)(this.Width * 1000), (uint)(this.Height * 1000));
             }
             catch
             {
-                Correlation = new Corralation();
+                Correlation = new Correlation();
             }
         }
     }

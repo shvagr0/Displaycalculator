@@ -16,7 +16,7 @@ namespace DisplayCalculator
         private Display display;
 
         private double diagonal;
-        private Corralation corralation;
+        private Correlation corralation;
         private double width;
         private double height;
 
@@ -27,8 +27,8 @@ namespace DisplayCalculator
             TextBox_Diagonal.TextChanged += InputChanged;
             TextBox_Diagonal.TextChanged += CheckOnCorrectInput;
 
-            TextBox_Corralation.TextChanged += InputChanged;
-            TextBox_Corralation.TextChanged += CheckOnCorrectInput;
+            TextBox_Correlation.TextChanged += InputChanged;
+            TextBox_Correlation.TextChanged += CheckOnCorrectInput;
 
             TextBox_Width.TextChanged += InputChanged;
             TextBox_Width.TextChanged += CheckOnCorrectInput;
@@ -39,10 +39,10 @@ namespace DisplayCalculator
 
         private void CheckOnCorrectInput(object sender, RoutedEventArgs e)
         {
-            if (!Regex.IsMatch(TextBox_Corralation.Text, @"^[1-9]+\d*[:][1-9]+\d*$") && TextBox_Corralation.Text != String.Empty)
-                TextBox_Corralation.Style = (Style)Resources["WarningTextBox"];
+            if (!Regex.IsMatch(TextBox_Correlation.Text, @"^[1-9]+\d*[:][1-9]+\d*$") && TextBox_Correlation.Text != String.Empty)
+                TextBox_Correlation.Style = (Style)Resources["WarningTextBox"];
             else
-                TextBox_Corralation.Style = (Style)Resources["DefaultTextBox"];
+                TextBox_Correlation.Style = (Style)Resources["DefaultTextBox"];
 
             if (!Regex.IsMatch(TextBox_Diagonal.Text, @"^\s*\d*[,]?\d*\s*$") && TextBox_Diagonal.Text != String.Empty)
                 TextBox_Diagonal.Style = (Style)Resources["WarningTextBox"];
@@ -62,12 +62,12 @@ namespace DisplayCalculator
 
         private void GetCorralation()
         {
-            string[] corralationInput = TextBox_Corralation.Text.Split(':');
+            string[] corralationInput = TextBox_Correlation.Text.Split(':');
             if (corralationInput.Length != 2)
                 throw new FormatException();
             uint WCorralation = UInt32.Parse(corralationInput[0]);
             uint HCorralayion = UInt32.Parse(corralationInput[1]);
-            corralation = new Corralation(WCorralation, HCorralayion);
+            corralation = new Correlation(WCorralation, HCorralayion);
         }
 
         private void InputChanged(object sender, RoutedEventArgs e)
@@ -109,8 +109,8 @@ namespace DisplayCalculator
                         #endregion
 
                         /*Reduce correlation*/
-                        if (!TextBox_Corralation.IsFocused)
-                            TextBox_Corralation.Text = display.Correlation.ToString();
+                        if (!TextBox_Correlation.IsFocused)
+                            TextBox_Correlation.Text = display.Correlation.ToString();
                     }
                     catch
                     {
@@ -156,8 +156,8 @@ namespace DisplayCalculator
                         #endregion
 
                         /*Reduce correlation*/
-                        if (!TextBox_Corralation.IsFocused)
-                            TextBox_Corralation.Text = display.Correlation.ToString();
+                        if (!TextBox_Correlation.IsFocused)
+                            TextBox_Correlation.Text = display.Correlation.ToString();
                     }
                     catch
                     {
@@ -203,8 +203,8 @@ namespace DisplayCalculator
                         #endregion
 
                         /*Reduce correlation*/
-                        if (!TextBox_Corralation.IsFocused)
-                            TextBox_Corralation.Text = display.Correlation.ToString();
+                        if (!TextBox_Correlation.IsFocused)
+                            TextBox_Correlation.Text = display.Correlation.ToString();
                     }
                     catch
                     {
@@ -247,13 +247,13 @@ namespace DisplayCalculator
                             TextBox_Diagonal.Text = display.Diagonal.ToString();
                         #endregion
 
-                        TextBox_Corralation.Text = display.Correlation.ToString();
+                        TextBox_Correlation.Text = display.Correlation.ToString();
                     }
                     catch
                     {
-                        if (TextBox_Corralation != null && TextBox_Diagonal != null)
+                        if (TextBox_Correlation != null && TextBox_Diagonal != null)
                         {
-                            TextBox_Corralation.Text = String.Empty;
+                            TextBox_Correlation.Text = String.Empty;
                             TextBox_Diagonal.Text = String.Empty;
                         }
                     }
@@ -290,13 +290,13 @@ namespace DisplayCalculator
                             TextBox_Height.Text = display.Height.ToString();
                         #endregion
 
-                        TextBox_Corralation.Text = display.Correlation.ToString();
+                        TextBox_Correlation.Text = display.Correlation.ToString();
                     }
                     catch
                     {
-                        if (TextBox_Corralation != null && TextBox_Height != null)
+                        if (TextBox_Correlation != null && TextBox_Height != null)
                         {
-                            TextBox_Corralation.Text = String.Empty;
+                            TextBox_Correlation.Text = String.Empty;
                             TextBox_Height.Text = String.Empty;
                         }
                     }
@@ -333,13 +333,13 @@ namespace DisplayCalculator
                             TextBox_Width.Text = display.Width.ToString();
                         #endregion
 
-                        TextBox_Corralation.Text = display.Correlation.ToString();
+                        TextBox_Correlation.Text = display.Correlation.ToString();
                     }
                     catch
                     {
-                        if (TextBox_Corralation != null && TextBox_Width != null)
+                        if (TextBox_Correlation != null && TextBox_Width != null)
                         {
-                            TextBox_Corralation.Text = String.Empty;
+                            TextBox_Correlation.Text = String.Empty;
                             TextBox_Width.Text = String.Empty;
                         }
                     }
@@ -351,7 +351,7 @@ namespace DisplayCalculator
         {
             if (ModeSwitcher.IsChecked == true)
             {
-                TextBox_Corralation.IsEnabled = false;
+                TextBox_Correlation.IsEnabled = false;
                 WarningIcon.Visibility = Visibility.Visible;
 
                 if (WHMode.IsChecked == true)
@@ -384,7 +384,7 @@ namespace DisplayCalculator
             }
             else if (ModeSwitcher.IsChecked == false)
             {
-                TextBox_Corralation.IsEnabled = true;
+                TextBox_Correlation.IsEnabled = true;
                 WarningIcon.Visibility = Visibility.Collapsed;
 
                 if (WHMode.IsChecked == true)

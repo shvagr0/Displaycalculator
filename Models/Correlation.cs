@@ -4,12 +4,12 @@ using System.Collections.Generic;
 namespace DisplayCalculator
 {
 
-    public readonly struct Corralation
+    public readonly struct Correlation
     {
         public readonly uint Width;
         public readonly uint Height;
 
-        public Corralation(uint Width, uint Height)
+        public Correlation(uint Width, uint Height)
         {
             if (Width == 0 || Height == 0) throw new ArgumentException();
             if (Height == Width)
