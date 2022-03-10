@@ -16,3 +16,7 @@ In the reverse mode, errors in the field of correlation of sides!
 There are 3 different units of measurement for aibir.
 
 ![image](https://user-images.githubusercontent.com/93011174/157732973-a564fcf0-67e7-43eb-a55a-ff0e39b4111e.png)
+
+If the entered data is incorrect, the field is highlighted in red.
+
+![image](https://user-images.githubusercontent.com/93011174/157733502-a9c73d0c-9971-4237-b447-71b204201302.png)
