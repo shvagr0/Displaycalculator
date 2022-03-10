@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace DisplayCalculator
@@ -9,12 +8,12 @@ namespace DisplayCalculator
     public partial class MainWindow : Window
     {
         private const double _inch = 25.4;
-        private const int _centimeter = 10;
+        private const double _centimeter = 10.0;
 
         private enum Modes { DefaultHW, DefaultWidth, DefaultHeight, ReverseHW, ReverseWidth, ReverseHeight }
         private Modes Mode = Modes.DefaultHW;
 
-        private Display Display;
+        private Display display;
 
         private double diagonal;
         private Corralation corralation;
@@ -37,7 +36,6 @@ namespace DisplayCalculator
             TextBox_Height.TextChanged += InputChanged;
             TextBox_Height.TextChanged += CheckOnCorrectInput;
         }
-
 
         private void CheckOnCorrectInput(object sender, RoutedEventArgs e)
         {
@@ -62,6 +60,16 @@ namespace DisplayCalculator
                 TextBox_Height.Style = (Style)Resources["DefaultTextBox"];
         }
 
+        private void GetCorralation()
+        {
+            string[] corralationInput = TextBox_Corralation.Text.Split(':');
+            if (corralationInput.Length != 2)
+                throw new FormatException();
+            uint WCorralation = UInt32.Parse(corralationInput[0]);
+            uint HCorralayion = UInt32.Parse(corralationInput[1]);
+            corralation = new Corralation(WCorralation, HCorralayion);
+        }
+
         private void InputChanged(object sender, RoutedEventArgs e)
         {
             switch (Mode)
@@ -69,38 +77,40 @@ namespace DisplayCalculator
                 case Modes.DefaultHW:
                     try
                     {
-                        string[] corralationInput = TextBox_Corralation.Text.Split(':');
-                        if (corralationInput.Length != 2)
-                            throw new Exception();
-                        uint WCorralation = UInt32.Parse(corralationInput[0]);
-                        uint HCorralayion = UInt32.Parse(corralationInput[1]);
-                        corralation = new Corralation(WCorralation, HCorralayion);
+                        GetCorralation();
 
+                        #region Diagonal input
                         if (ComboBoxDiagonalInch.IsSelected)
                             diagonal = Double.Parse(TextBox_Diagonal.Text) * _inch;
                         else if (ComboBoxDiagonalСentimeter.IsSelected)
                             diagonal = Double.Parse(TextBox_Diagonal.Text) * _centimeter;
                         else
                             diagonal = Double.Parse(TextBox_Diagonal.Text);
+                        #endregion
 
-                        Display = new Display(diagonal, corralation);
+                        display = new Display(diagonal, corralation);
 
+                        #region Width output
                         if (ComboBoxWidthInch.IsSelected)
-                            TextBox_Width.Text = (Display.width / _inch).ToString();
+                            TextBox_Width.Text = (display.Width / _inch).ToString();
                         else if (ComboBoxWidthСentimeter.IsSelected)
-                            TextBox_Width.Text = (Display.width / _centimeter).ToString();
+                            TextBox_Width.Text = (display.Width / _centimeter).ToString();
                         else
-                            TextBox_Width.Text = Display.width.ToString();
+                            TextBox_Width.Text = display.Width.ToString();
+                        #endregion
 
+                        #region Height output
                         if (ComboBoxHeightInch.IsSelected)
-                            TextBox_Height.Text = (Display.height / _inch).ToString();
+                            TextBox_Height.Text = (display.Height / _inch).ToString();
                         else if (ComboBoxHeightСentimeter.IsSelected)
-                            TextBox_Height.Text = (Display.height / _centimeter).ToString();
+                            TextBox_Height.Text = (display.Height / _centimeter).ToString();
                         else
-                            TextBox_Height.Text = Display.height.ToString();
+                            TextBox_Height.Text = display.Height.ToString();
+                        #endregion
 
+                        /*Reduce correlation*/
                         if (!TextBox_Corralation.IsFocused)
-                            TextBox_Corralation.Text = Display.correlation.ToString();
+                            TextBox_Corralation.Text = display.Correlation.ToString();
                     }
                     catch
                     {
@@ -114,38 +124,40 @@ namespace DisplayCalculator
                 case Modes.DefaultWidth:
                     try
                     {
-                        string[] corralationInput = TextBox_Corralation.Text.Split(':');
-                        if (corralationInput.Length != 2)
-                            throw new Exception();
-                        uint WCorralation = UInt32.Parse(corralationInput[0]);
-                        uint HCorralayion = UInt32.Parse(corralationInput[1]);
-                        corralation = new Corralation(WCorralation, HCorralayion);
+                        GetCorralation();
 
+                        #region Height input
                         if (ComboBoxHeightInch.IsSelected)
                             height = Double.Parse(TextBox_Height.Text) * _inch;
                         else if (ComboBoxHeightСentimeter.IsSelected)
                             height = Double.Parse(TextBox_Height.Text) * _centimeter;
                         else
                             height = Double.Parse(TextBox_Height.Text);
+                        #endregion
 
-                        Display = new Display(corralation, height, Display.Side.Height);
+                        display = new Display(corralation, height, Display.Side.Height);
 
+                        #region Diagonal output
                         if (ComboBoxDiagonalInch.IsSelected)
-                            TextBox_Diagonal.Text = (Display.diagonal / _inch).ToString();
+                            TextBox_Diagonal.Text = (display.Diagonal / _inch).ToString();
                         else if (ComboBoxDiagonalСentimeter.IsSelected)
-                            TextBox_Diagonal.Text = (Display.diagonal / _centimeter).ToString();
+                            TextBox_Diagonal.Text = (display.Diagonal / _centimeter).ToString();
                         else
-                            TextBox_Diagonal.Text = Display.diagonal.ToString();
+                            TextBox_Diagonal.Text = display.Diagonal.ToString();
+                        #endregion
 
+                        #region Width output
                         if (ComboBoxWidthInch.IsSelected)
-                            TextBox_Width.Text = (Display.width / _inch).ToString();
+                            TextBox_Width.Text = (display.Width / _inch).ToString();
                         else if (ComboBoxWidthСentimeter.IsSelected)
-                            TextBox_Width.Text = (Display.width / _centimeter).ToString();
+                            TextBox_Width.Text = (display.Width / _centimeter).ToString();
                         else
-                            TextBox_Width.Text = Display.width.ToString();
+                            TextBox_Width.Text = display.Width.ToString();
+                        #endregion
 
+                        /*Reduce correlation*/
                         if (!TextBox_Corralation.IsFocused)
-                            TextBox_Corralation.Text = Display.correlation.ToString();
+                            TextBox_Corralation.Text = display.Correlation.ToString();
                     }
                     catch
                     {
@@ -159,37 +171,40 @@ namespace DisplayCalculator
                 case Modes.DefaultHeight:
                     try
                     {
-                        string[] corralationInput = TextBox_Corralation.Text.Split(':');
-                        if (corralationInput.Length != 2)
-                            throw new Exception();
-                        uint WCorralation = UInt32.Parse(corralationInput[0]);
-                        uint HCorralayion = UInt32.Parse(corralationInput[1]);
-                        corralation = new Corralation(WCorralation, HCorralayion);
+                        GetCorralation();
 
+                        #region Width input
                         if (ComboBoxWidthInch.IsSelected)
                             width = Double.Parse(TextBox_Width.Text) * _inch;
                         else if (ComboBoxWidthСentimeter.IsSelected)
                             width = Double.Parse(TextBox_Width.Text) * _centimeter;
                         else
                             width = Double.Parse(TextBox_Width.Text);
+                        #endregion
 
-                        Display = new Display(corralation, width, Display.Side.Width);
+                        display = new Display(corralation, width, Display.Side.Width);
 
+                        #region Diagonal output
                         if (ComboBoxDiagonalInch.IsSelected)
-                            TextBox_Diagonal.Text = (Display.diagonal / _inch).ToString();
+                            TextBox_Diagonal.Text = (display.Diagonal / _inch).ToString();
                         else if (ComboBoxDiagonalСentimeter.IsSelected)
-                            TextBox_Diagonal.Text = (Display.diagonal / _centimeter).ToString();
+                            TextBox_Diagonal.Text = (display.Diagonal / _centimeter).ToString();
                         else
-                            TextBox_Diagonal.Text = Display.diagonal.ToString();
+                            TextBox_Diagonal.Text = display.Diagonal.ToString();
+                        #endregion
 
+                        #region Height output
                         if (ComboBoxHeightInch.IsSelected)
-                            TextBox_Height.Text = (Display.height / _inch).ToString();
+                            TextBox_Height.Text = (display.Height / _inch).ToString();
                         else if (ComboBoxHeightСentimeter.IsSelected)
-                            TextBox_Height.Text = (Display.height / _centimeter).ToString();
+                            TextBox_Height.Text = (display.Height / _centimeter).ToString();
                         else
-                            TextBox_Height.Text = Display.height.ToString();
+                            TextBox_Height.Text = display.Height.ToString();
+                        #endregion
+
+                        /*Reduce correlation*/
                         if (!TextBox_Corralation.IsFocused)
-                            TextBox_Corralation.Text = Display.correlation.ToString();
+                            TextBox_Corralation.Text = display.Correlation.ToString();
                     }
                     catch
                     {
@@ -203,30 +218,36 @@ namespace DisplayCalculator
                 case Modes.ReverseHW:
                     try
                     {
+                        #region Width input
                         if (ComboBoxWidthInch.IsSelected)
                             width = Double.Parse(TextBox_Width.Text) * _inch;
                         else if (ComboBoxWidthСentimeter.IsSelected)
                             width = Double.Parse(TextBox_Width.Text) * _centimeter;
                         else
                             width = Double.Parse(TextBox_Width.Text);
+                        #endregion
 
+                        #region Height input
                         if (ComboBoxHeightInch.IsSelected)
                             height = Double.Parse(TextBox_Height.Text) * _inch;
                         else if (ComboBoxHeightСentimeter.IsSelected)
                             height = Double.Parse(TextBox_Height.Text) * _centimeter;
                         else
                             height = Double.Parse(TextBox_Height.Text);
+                        #endregion
 
-                        Display = new Display(width, height);
+                        display = new Display(width, height);
 
+                        #region Diagonal output
                         if (ComboBoxDiagonalInch.IsSelected)
-                            TextBox_Diagonal.Text = (Display.diagonal / _inch).ToString();
+                            TextBox_Diagonal.Text = (display.Diagonal / _inch).ToString();
                         else if (ComboBoxDiagonalСentimeter.IsSelected)
-                            TextBox_Diagonal.Text = (Display.diagonal / _centimeter).ToString();
+                            TextBox_Diagonal.Text = (display.Diagonal / _centimeter).ToString();
                         else
-                            TextBox_Diagonal.Text = Display.diagonal.ToString();
+                            TextBox_Diagonal.Text = display.Diagonal.ToString();
+                        #endregion
 
-                        TextBox_Corralation.Text = Display.correlation.ToString();
+                        TextBox_Corralation.Text = display.Correlation.ToString();
                     }
                     catch
                     {
@@ -240,30 +261,36 @@ namespace DisplayCalculator
                 case Modes.ReverseWidth:
                     try
                     {
+                        #region Width input
                         if (ComboBoxWidthInch.IsSelected)
                             width = Double.Parse(TextBox_Width.Text) * _inch;
                         else if (ComboBoxWidthСentimeter.IsSelected)
                             width = Double.Parse(TextBox_Width.Text) * _centimeter;
                         else
                             width = Double.Parse(TextBox_Width.Text);
+                        #endregion
 
+                        #region Diagonal input
                         if (ComboBoxDiagonalInch.IsSelected)
                             diagonal = Double.Parse(TextBox_Diagonal.Text) * _inch;
                         else if (ComboBoxDiagonalСentimeter.IsSelected)
                             diagonal = Double.Parse(TextBox_Diagonal.Text) * _centimeter;
                         else
                             diagonal = Double.Parse(TextBox_Diagonal.Text);
+                        #endregion
 
-                        Display = new Display(diagonal, width, Display.Side.Width);
+                        display = new Display(diagonal, width, Display.Side.Width);
 
+                        #region Height output
                         if (ComboBoxHeightInch.IsSelected)
-                            TextBox_Height.Text = (Display.height / _inch).ToString();
+                            TextBox_Height.Text = (display.Height / _inch).ToString();
                         else if (ComboBoxHeightСentimeter.IsSelected)
-                            TextBox_Height.Text = (Display.height / _centimeter).ToString();
+                            TextBox_Height.Text = (display.Height / _centimeter).ToString();
                         else
-                            TextBox_Height.Text = Display.height.ToString();
+                            TextBox_Height.Text = display.Height.ToString();
+                        #endregion
 
-                        TextBox_Corralation.Text = Display.correlation.ToString();
+                        TextBox_Corralation.Text = display.Correlation.ToString();
                     }
                     catch
                     {
@@ -277,30 +304,36 @@ namespace DisplayCalculator
                 case Modes.ReverseHeight:
                     try
                     {
+                        #region Height input
                         if (ComboBoxHeightInch.IsSelected)
                             height = Double.Parse(TextBox_Height.Text) * _inch;
                         else if (ComboBoxHeightСentimeter.IsSelected)
                             height = Double.Parse(TextBox_Height.Text) * _centimeter;
                         else
                             height = Double.Parse(TextBox_Height.Text);
+                        #endregion
 
+                        #region Diagonal input
                         if (ComboBoxDiagonalInch.IsSelected)
                             diagonal = Double.Parse(TextBox_Diagonal.Text) * _inch;
                         else if (ComboBoxDiagonalСentimeter.IsSelected)
                             diagonal = Double.Parse(TextBox_Diagonal.Text) * _centimeter;
                         else
                             diagonal = Double.Parse(TextBox_Diagonal.Text);
+                        #endregion
 
-                        Display = new Display(diagonal, height, Display.Side.Height);
+                        display = new Display(diagonal, height, Display.Side.Height);
 
+                        #region Width output
                         if (ComboBoxWidthInch.IsSelected)
-                            TextBox_Width.Text = (Display.width / _inch).ToString();
+                            TextBox_Width.Text = (display.Width / _inch).ToString();
                         else if (ComboBoxWidthСentimeter.IsSelected)
-                            TextBox_Width.Text = (Display.width / _centimeter).ToString();
+                            TextBox_Width.Text = (display.Width / _centimeter).ToString();
                         else
-                            TextBox_Width.Text = Display.width.ToString();
+                            TextBox_Width.Text = display.Width.ToString();
+                        #endregion
 
-                        TextBox_Corralation.Text = Display.correlation.ToString();
+                        TextBox_Corralation.Text = display.Correlation.ToString();
                     }
                     catch
                     {
@@ -312,16 +345,6 @@ namespace DisplayCalculator
                     }
                     break;
             }
-
-
-
-
-        }
-
-        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex(@"[^0-9,]+");
-            e.Handled = regex.IsMatch(e.Text);
         }
 
         private void SwitchModes(object sender, RoutedEventArgs e)
@@ -329,6 +352,7 @@ namespace DisplayCalculator
             if (ModeSwitcher.IsChecked == true)
             {
                 TextBox_Corralation.IsEnabled = false;
+                WarningIcon.Visibility = Visibility.Visible;
 
                 if (WHMode.IsChecked == true)
                 {
@@ -361,6 +385,7 @@ namespace DisplayCalculator
             else if (ModeSwitcher.IsChecked == false)
             {
                 TextBox_Corralation.IsEnabled = true;
+                WarningIcon.Visibility = Visibility.Collapsed;
 
                 if (WHMode.IsChecked == true)
                 {
@@ -390,6 +415,17 @@ namespace DisplayCalculator
                     TextBox_Height.IsEnabled = false;
                 }
             }
+        }
+
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex(@"[^0-9,]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+        private void Corralation_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex(@"[^0-9:]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }

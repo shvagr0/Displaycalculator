@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         WindowStyle="ThreeDBorderWindow"
         Background="White"
-        Icon="\icon.ico"
+        Icon="/Source/icon.ico"
         Title="DisplayCalculator" Height="370" Width="450" ResizeMode="NoResize">
 
     <Window.Resources>
@@ -76,12 +76,33 @@
                 <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="~" FontSize="30" Visibility="Hidden"/>
+            <Grid x:Name="WarningIcon" Visibility="Collapsed">
+                <materialDesign:PackIcon Kind="WarningCircleOutline"
+                                     Height="17"
+                                     Width="17"
+                                     Grid.Row="0"
+                                     HorizontalAlignment="Right"
+                                     VerticalAlignment="Top"
+                                     Foreground="White"
+                                     Margin="0,26,8,0" Panel.ZIndex="3"
+                                     ToolTip="Можлива погрішність розрахунків"/>
+                <Ellipse Fill="Red"
+                     Opacity="0.5"
+                     Height="13"
+                     Width="13"
+                     Grid.Row="0"
+                     HorizontalAlignment="Right"
+                     VerticalAlignment="Top"
+                     Margin="0,28,10,0" Panel.ZIndex="2"
+                     ToolTip="Можлива погрішність розрахунків"/>
+            </Grid>
+
             <TextBox x:Name="TextBox_Corralation"
                      Style="{StaticResource DefaultTextBox}"
                      materialDesign:HintAssist.Hint="Співвідношення сторін"
                      Grid.Column="0"
-                     FontSize="24"/>
+                     FontSize="24"
+                     PreviewTextInput="Corralation_PreviewTextInput"/>
 
             <Grid Grid.Column="1" x:Name="ModeGrid">
                 <Label Content="Reverse Mode"
